@@ -1,0 +1,35 @@
+name: Create SFDX Project
+
+on:
+  repository_dispatch:
+    types: [created]
+
+jobs:
+  initialize-sfdx-project:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install Salesforce CLI
+      run: npm install -g @salesforce/cli@latest
+
+    - name: Create SFDX Project
+      run: |
+        sfdx force:project:create -n my_sfdx_project
+        mv my_sfdx_project/* ./
+        rm -rf my_sfdx_project
+
+    - name: Commit changes
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git add .
+        git commit -m "Initialize SFDX project"
+        git push
