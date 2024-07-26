@@ -1,7 +1,8 @@
 name: Create SFDX Project
 
 on:
-    workflow_dispatch:
+  repository_dispatch:
+    types: [created]
 
 jobs:
   initialize-sfdx-project:
@@ -32,3 +33,5 @@ jobs:
         git add .
         git commit -m "Initialize SFDX project"
         git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT }}
