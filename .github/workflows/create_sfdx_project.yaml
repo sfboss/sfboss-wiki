@@ -1,8 +1,7 @@
 name: Create SFDX Project
 
 on:
-  repository_dispatch:
-    types: [created]
+    workflow_dispatch:
 
 jobs:
   initialize-sfdx-project:
